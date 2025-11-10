@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infografía: ¿Qué es una Potencia?</title>
+    <title>Potencias y Leyes de los Exponentes - Aprende Matemáticas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#FF6B9D',
+                        accent: '#FFC837',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Orbitron:wght@700;900&display=swap');
 
@@ -28,6 +42,7 @@
             pointer-events: none;
             opacity: 0.6;
             animation: floatParticle linear infinite;
+            z-index: 0;
         }
 
         @keyframes floatParticle {
@@ -47,9 +62,45 @@
             }
         }
 
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(93, 92, 222, 0.5), 0 0 20px rgba(93, 92, 222, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(93, 92, 222, 0.8), 0 0 40px rgba(93, 92, 222, 0.5); }
         }
 
         @keyframes fadeInUp {
@@ -61,11 +112,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         @keyframes slideInLeft {
@@ -90,24 +136,6 @@
             }
         }
 
-        @keyframes glow {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(102, 126, 234, 0.5),
-                            0 0 40px rgba(102, 126, 234, 0.3),
-                            0 0 60px rgba(102, 126, 234, 0.2);
-            }
-            50% {
-                box-shadow: 0 0 30px rgba(102, 126, 234, 0.8),
-                            0 0 60px rgba(102, 126, 234, 0.5),
-                            0 0 90px rgba(102, 126, 234, 0.3);
-            }
-        }
-
-        @keyframes rotate3d {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-
         @keyframes bounceIn {
             0% {
                 transform: scale(0);
@@ -122,19 +150,42 @@
             }
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
         @keyframes rainbow {
             0% { filter: hue-rotate(0deg); }
             100% { filter: hue-rotate(360deg); }
         }
 
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
         .animate-float {
             animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 2s ease-in-out infinite;
         }
 
         .animate-fadeInUp {
@@ -157,16 +208,190 @@
             animation: glow 2s ease-in-out infinite;
         }
 
-        .animate-rotate3d {
-            animation: rotate3d 10s linear infinite;
-        }
-
         .animate-bounceIn {
             animation: bounceIn 0.8s ease-out forwards;
         }
 
         .animate-rainbow {
             animation: rainbow 5s linear infinite;
+        }
+
+        .law-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .dark .law-card {
+            background: linear-gradient(135deg, #1f2937 0%, #2d3748 100%);
+        }
+
+        .law-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .law-card:hover::before {
+            left: 100%;
+        }
+
+        .law-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(93, 92, 222, 0.4);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .law-card:active {
+            transform: translateY(-5px) scale(0.98);
+        }
+
+        .modal-overlay {
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .correct-answer {
+            background-color: #10B981;
+            color: white;
+            animation: pulse 0.5s ease;
+        }
+
+        .incorrect-answer {
+            background-color: #EF4444;
+            color: white;
+            animation: pulse 0.5s ease;
+        }
+
+        .exponent {
+            vertical-align: super;
+            font-size: 0.7em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #5D5CDE, #FF6B9D, #FFC837);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .sparkle {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sparkle::after {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            animation: bounce 2s ease-in-out infinite;
+            font-size: 1.2em;
+        }
+
+        .nav-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(93, 92, 222, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .card-glow {
+            position: relative;
+        }
+
+        .card-glow::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #5D5CDE, #FF6B9D, #FFC837, #5D5CDE);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .card-glow:hover::after {
+            opacity: 1;
+        }
+
+        .emoji-float {
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .number-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5D5CDE, #7D7DFF);
+            color: white;
+            font-weight: bold;
+            font-size: 1.5em;
+            box-shadow: 0 4px 15px rgba(93, 92, 222, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .law-card:hover .number-circle {
+            transform: rotate(360deg) scale(1.1);
         }
 
         .gradient-bg {
@@ -276,7 +501,6 @@
             }
         }
 
-        /* Calculadora interactiva */
         .calc-button {
             transition: all 0.3s ease;
         }
@@ -295,7 +519,6 @@
             opacity: 1;
         }
 
-        /* Efectos de neón */
         .neon-text {
             text-shadow: 0 0 10px rgba(102, 126, 234, 0.8),
                          0 0 20px rgba(102, 126, 234, 0.6),
@@ -309,7 +532,6 @@
                         inset 0 0 10px rgba(102, 126, 234, 0.3);
         }
 
-        /* Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -320,302 +542,714 @@
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* Zoom interactivo */
-        .zoomable {
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .zoomed {
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) scale(1.3) !important;
-            z-index: 9999 !important;
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 0 100px rgba(102, 126, 234, 0.8),
-                        0 0 200px rgba(102, 126, 234, 0.5) !important;
-        }
-
-        .zoom-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 9998;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .zoom-indicator {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(102, 126, 234, 0.9);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            z-index: 10;
-            animation: pulse 1s infinite;
-        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 min-h-screen p-4 sm:p-8 transition-colors duration-300">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <!-- Partículas de fondo animadas -->
     <div id="particles-container"></div>
 
-    <div class="max-w-6xl mx-auto relative z-10">
-        <!-- Header con efectos especiales -->
-        <div class="text-center mb-8 sm:mb-12 animate-fadeInUp">
-            <div class="inline-block gradient-bg px-6 sm:px-8 py-3 sm:py-4 rounded-full mb-4 sm:mb-6 card-shadow animate-glow">
-                <h1 class="text-3xl sm:text-6xl font-black text-white neon-text orbitron">
-                    <i class="fas fa-superscript mr-3"></i>¿QUÉ ES UNA POTENCIA?
-                </h1>
-            </div>
-            <p class="text-base sm:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto px-4 leading-relaxed animate-bounceIn">
-                Una expresión matemática que representa la <span class="font-bold text-purple-600 dark:text-purple-400 text-2xl">✨ multiplicación de un número por sí mismo ✨</span> un cierto número de veces
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-primary via-secondary to-accent text-white py-12 px-4 shadow-2xl relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-10 left-10 text-6xl emoji-float">📐</div>
+            <div class="absolute top-20 right-20 text-5xl emoji-float" style="animation-delay: 0.5s;">📊</div>
+            <div class="absolute bottom-10 left-1/4 text-4xl emoji-float" style="animation-delay: 1s;">🎯</div>
+            <div class="absolute bottom-20 right-1/3 text-5xl emoji-float" style="animation-delay: 1.5s;">⭐</div>
+        </div>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <h1 class="text-5xl md:text-6xl font-bold text-center mb-3 animate-slide-in sparkle">
+                <span class="emoji-float">🚀</span> Potencias y Exponentes
+            </h1>
+            <p class="text-center text-xl md:text-2xl opacity-90 animate-slide-in font-semibold">
+                ¡Domina las matemáticas de forma divertida!
+                <span class="animate-bounce inline-block">💪</span>
             </p>
-        </div>
-
-        <!-- Partes de una potencia con efectos 3D -->
-        <div class="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
-            <!-- Base -->
-            <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 card-shadow animate-slideInLeft card-3d neon-border">
-                <div class="flex items-center mb-4 sm:mb-6">
-                    <div class="icon-circle gradient-bg-2 text-white mr-4 animate-pulse-custom">
-                        <i class="fas fa-cube"></i>
-                    </div>
-                    <h2 class="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white orbitron">BASE</h2>
-                </div>
-                <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                    <i class="fas fa-star text-yellow-400"></i> Es el <span class="font-bold text-pink-600 dark:text-pink-400 text-xl">número que se multiplica</span> por sí mismo
-                </p>
-                <div class="mt-6 sm:mt-8 text-center">
-                    <div class="inline-block bg-gradient-to-r from-pink-100 to-red-100 dark:from-pink-900 dark:to-red-900 px-6 sm:px-8 py-4 sm:py-6 rounded-2xl neon-border animate-glow">
-                        <div class="base-exponente text-pink-600 dark:text-pink-300 orbitron">
-                            <span class="text-pink-600 dark:text-pink-300 border-b-8 border-pink-600 dark:border-pink-400 pb-1 px-4 animate-pulse-custom">2</span><span class="exponente">3</span>
-                        </div>
-                        <p class="text-xs sm:text-sm font-semibold text-pink-700 dark:text-pink-400 mt-3">
-                            <i class="fas fa-arrow-up"></i> Esta es la BASE <i class="fas fa-arrow-up"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Exponente -->
-            <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 card-shadow animate-slideInRight card-3d neon-border">
-                <div class="flex items-center mb-4 sm:mb-6">
-                    <div class="icon-circle gradient-bg-3 text-white mr-4 animate-pulse-custom" style="animation-delay: 0.5s;">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h2 class="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white orbitron">EXPONENTE</h2>
-                </div>
-                <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                    <i class="fas fa-star text-yellow-400"></i> Indica <span class="font-bold text-blue-600 dark:text-blue-400 text-xl">cuántas veces</span> se multiplica la base por sí misma
-                </p>
-                <div class="mt-6 sm:mt-8 text-center">
-                    <div class="inline-block bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 px-6 sm:px-8 py-4 sm:py-6 rounded-2xl neon-border animate-glow">
-                        <div class="base-exponente text-blue-600 dark:text-blue-300 orbitron">
-                            2<span class="exponente border-4 border-blue-600 dark:border-blue-400 rounded-full px-3 py-1 bg-blue-200 dark:bg-blue-800 animate-pulse-custom">3</span>
-                        </div>
-                        <p class="text-xs sm:text-sm font-semibold text-blue-700 dark:text-blue-400 mt-3">
-                            <i class="fas fa-arrow-up"></i> Este es el EXPONENTE <i class="fas fa-arrow-up"></i>
-                        </p>
-                    </div>
-                </div>
+            <div class="flex justify-center mt-4 space-x-2">
+                <span class="inline-block px-4 py-2 bg-white/20 rounded-full text-sm backdrop-blur-sm animate-pulse">✨ Interactivo</span>
+                <span class="inline-block px-4 py-2 bg-white/20 rounded-full text-sm backdrop-blur-sm animate-pulse" style="animation-delay: 0.2s;">🎮 Divertido</span>
+                <span class="inline-block px-4 py-2 bg-white/20 rounded-full text-sm backdrop-blur-sm animate-pulse" style="animation-delay: 0.4s;">🏆 Efectivo</span>
             </div>
         </div>
+    </header>
 
-        <!-- Ejemplo Principal Mejorado -->
-        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-10 card-shadow mb-8 sm:mb-12 animate-fadeInUp card-3d neon-border">
-            <div class="text-center mb-6 sm:mb-8">
-                <div class="inline-block gradient-bg-4 px-5 sm:px-6 py-2 sm:py-3 rounded-full animate-glow">
-                    <h2 class="text-2xl sm:text-4xl font-bold text-white orbitron">
-                        <i class="fas fa-calculator mr-2"></i> EJEMPLO PRÁCTICO <i class="fas fa-lightbulb ml-2"></i>
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-center space-x-2 md:space-x-4 py-4 overflow-x-auto">
+                <button onclick="showSection('introduccion')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-base transition-all whitespace-nowrap bg-primary text-white">
+                    🌟 Introducción
+                </button>
+                <button onclick="showSection('teoria')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-base transition-all whitespace-nowrap text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    📚 Teoría
+                </button>
+                <button onclick="showSection('ejemplos')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-base transition-all whitespace-nowrap text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    💡 Ejemplos
+                </button>
+                <button onclick="showSection('practica')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-base transition-all whitespace-nowrap text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    ✏️ Práctica
+                </button>
+                <button onclick="showSection('quiz')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-base transition-all whitespace-nowrap text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    🎯 Quiz
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 relative z-10">
+        <!-- Sección de Introducción (del segundo código) -->
+        <section id="introduccion" class="section">
+            <div class="text-center mb-8 sm:mb-12 animate-fadeInUp">
+                <div class="inline-block gradient-bg px-6 sm:px-8 py-3 sm:py-4 rounded-full mb-4 sm:mb-6 card-shadow animate-glow">
+                    <h2 class="text-3xl sm:text-5xl font-black text-white neon-text orbitron">
+                        <i class="fas fa-superscript mr-3"></i>¿QUÉ ES UNA POTENCIA?
                     </h2>
                 </div>
+                <p class="text-base sm:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto px-4 leading-relaxed animate-bounceIn">
+                    Una expresión matemática que representa la <span class="font-bold text-purple-600 dark:text-purple-400 text-2xl">✨ multiplicación de un número por sí mismo ✨</span> un cierto número de veces
+                </p>
             </div>
 
-            <div class="bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 dark:from-purple-900 dark:via-pink-900 dark:to-blue-900 rounded-2xl p-6 sm:p-8 neon-border">
+            <!-- Partes de una potencia -->
+            <div class="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
+                <!-- Base -->
+                <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 card-shadow animate-slideInLeft card-3d neon-border">
+                    <div class="flex items-center mb-4 sm:mb-6">
+                        <div class="icon-circle gradient-bg-2 text-white mr-4 animate-pulse-custom">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white orbitron">BASE</h3>
+                    </div>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <i class="fas fa-star text-yellow-400"></i> Es el <span class="font-bold text-pink-600 dark:text-pink-400 text-xl">número que se multiplica</span> por sí mismo
+                    </p>
+                    <div class="mt-6 sm:mt-8 text-center">
+                        <div class="inline-block bg-gradient-to-r from-pink-100 to-red-100 dark:from-pink-900 dark:to-red-900 px-6 sm:px-8 py-4 sm:py-6 rounded-2xl neon-border animate-glow">
+                            <div class="base-exponente text-pink-600 dark:text-pink-300 orbitron">
+                                <span class="text-pink-600 dark:text-pink-300 border-b-8 border-pink-600 dark:border-pink-400 pb-1 px-4 animate-pulse-custom">2</span><span class="exponente">3</span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-pink-700 dark:text-pink-400 mt-3">
+                                <i class="fas fa-arrow-up"></i> Esta es la BASE <i class="fas fa-arrow-up"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exponente -->
+                <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 card-shadow animate-slideInRight card-3d neon-border">
+                    <div class="flex items-center mb-4 sm:mb-6">
+                        <div class="icon-circle gradient-bg-3 text-white mr-4 animate-pulse-custom" style="animation-delay: 0.5s;">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white orbitron">EXPONENTE</h3>
+                    </div>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <i class="fas fa-star text-yellow-400"></i> Indica <span class="font-bold text-blue-600 dark:text-blue-400 text-xl">cuántas veces</span> se multiplica la base por sí misma
+                    </p>
+                    <div class="mt-6 sm:mt-8 text-center">
+                        <div class="inline-block bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 px-6 sm:px-8 py-4 sm:py-6 rounded-2xl neon-border animate-glow">
+                            <div class="base-exponente text-blue-600 dark:text-blue-300 orbitron">
+                                2<span class="exponente border-4 border-blue-600 dark:border-blue-400 rounded-full px-3 py-1 bg-blue-200 dark:bg-blue-800 animate-pulse-custom">3</span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-blue-700 dark:text-blue-400 mt-3">
+                                <i class="fas fa-arrow-up"></i> Este es el EXPONENTE <i class="fas fa-arrow-up"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo Principal -->
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-10 card-shadow mb-8 sm:mb-12 animate-fadeInUp card-3d neon-border">
                 <div class="text-center mb-6 sm:mb-8">
-                    <div class="number-display text-purple-700 dark:text-purple-300 animate-pulse-custom orbitron neon-text">
-                        2<span class="exponente">3</span>
-                    </div>
-                    <p class="text-base sm:text-2xl text-gray-700 dark:text-gray-300 font-bold mt-2">
-                        <i class="fas fa-info-circle"></i> (2 elevado a la 3)
-                    </p>
-                </div>
-
-                <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 text-2xl sm:text-5xl font-bold text-gray-800 dark:text-white orbitron">
-                    <div class="bg-white dark:bg-gray-700 rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg animate-float neon-border" style="animation-delay: 0s;">2</div>
-                    <span class="text-pink-500 text-4xl sm:text-6xl animate-pulse-custom">✖</span>
-                    <div class="bg-white dark:bg-gray-700 rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg animate-float neon-border" style="animation-delay: 0.3s;">2</div>
-                    <span class="text-pink-500 text-4xl sm:text-6xl animate-pulse-custom">✖</span>
-                    <div class="bg-white dark:bg-gray-700 rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg animate-float neon-border" style="animation-delay: 0.6s;">2</div>
-                    <span class="text-green-500 text-4xl sm:text-6xl animate-pulse-custom">=</span>
-                    <div class="gradient-bg-5 text-white rounded-xl px-6 sm:px-8 py-3 sm:py-4 shadow-lg animate-pulse-custom neon-border">
-                        <i class="fas fa-star mr-2"></i>8<i class="fas fa-star ml-2"></i>
+                    <div class="inline-block gradient-bg-4 px-5 sm:px-6 py-2 sm:py-3 rounded-full animate-glow">
+                        <h3 class="text-2xl sm:text-4xl font-bold text-white orbitron">
+                            <i class="fas fa-calculator mr-2"></i> EJEMPLO PRÁCTICO <i class="fas fa-lightbulb ml-2"></i>
+                        </h3>
                     </div>
                 </div>
 
-                <div class="text-center bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6">
-                    <p class="text-sm sm:text-xl text-gray-600 dark:text-gray-300 font-bold">
-                        <i class="fas fa-arrow-right text-purple-500"></i> Se multiplica el <span class="font-bold text-pink-600 dark:text-pink-400 text-2xl">2</span> por sí mismo
-                        <span class="font-bold text-blue-600 dark:text-blue-400 text-2xl">3 veces</span> <i class="fas fa-arrow-left text-purple-500"></i>
-                    </p>
+                <div class="bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 dark:from-purple-900 dark:via-pink-900 dark:to-blue-900 rounded-2xl p-6 sm:p-8 neon-border">
+                    <div class="text-center mb-6 sm:mb-8">
+                        <div class="number-display text-purple-700 dark:text-purple-300 animate-pulse-custom orbitron neon-text">
+                            2<span class="exponente">3</span>
+                        </div>
+                        <p class="text-base sm:text-2xl text-gray-700 dark:text-gray-300 font-bold mt-2">
+                            <i class="fas fa-info-circle"></i> (2 elevado a la 3)
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 text-2xl sm:text-5xl font-bold text-gray-800 dark:text-white orbitron">
+                        <div class="bg-white dark:bg-gray-700 rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg animate-float neon-border" style="animation-delay: 0s;">2</div>
+                        <span class="text-pink-500 text-4xl sm:text-6xl animate-pulse-custom">✖</span>
+                        <div class="bg-white dark:bg-gray-700 rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg animate-float neon-border" style="animation-delay: 0.3s;">2</div>
+                        <span class="text-pink-500 text-4xl sm:text-6xl animate-pulse-custom">✖</span>
+                        <div class="bg-white dark:bg-gray-700 rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg animate-float neon-border" style="animation-delay: 0.6s;">2</div>
+                        <span class="text-green-500 text-4xl sm:text-6xl animate-pulse-custom">=</span>
+                        <div class="gradient-bg-5 text-white rounded-xl px-6 sm:px-8 py-3 sm:py-4 shadow-lg animate-pulse-custom neon-border">
+                            <i class="fas fa-star mr-2"></i>8<i class="fas fa-star ml-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="text-center bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6">
+                        <p class="text-sm sm:text-xl text-gray-600 dark:text-gray-300 font-bold">
+                            <i class="fas fa-arrow-right text-purple-500"></i> Se multiplica el <span class="font-bold text-pink-600 dark:text-pink-400 text-2xl">2</span> por sí mismo
+                            <span class="font-bold text-blue-600 dark:text-blue-400 text-2xl">3 veces</span> <i class="fas fa-arrow-left text-purple-500"></i>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- CALCULADORA INTERACTIVA -->
-        <div class="bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 rounded-3xl p-6 sm:p-10 card-shadow mb-8 sm:mb-12 animate-bounceIn card-3d neon-border">
-            <div class="text-center mb-6 sm:mb-8">
-                <div class="inline-block gradient-bg px-5 sm:px-6 py-2 sm:py-3 rounded-full animate-rainbow">
-                    <h2 class="text-2xl sm:text-4xl font-bold text-white orbitron">
-                        <i class="fas fa-magic mr-2"></i> CALCULADORA DE POTENCIAS <i class="fas fa-wand-magic-sparkles ml-2"></i>
-                    </h2>
+            <!-- Calculadora Interactiva -->
+            <div class="bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 rounded-3xl p-6 sm:p-10 card-shadow mb-8 sm:mb-12 animate-bounceIn card-3d neon-border">
+                <div class="text-center mb-6 sm:mb-8">
+                    <div class="inline-block gradient-bg px-5 sm:px-6 py-2 sm:py-3 rounded-full animate-rainbow">
+                        <h3 class="text-2xl sm:text-4xl font-bold text-white orbitron">
+                            <i class="fas fa-magic mr-2"></i> CALCULADORA DE POTENCIAS <i class="fas fa-wand-magic-sparkles ml-2"></i>
+                        </h3>
+                    </div>
+                    <p class="text-base sm:text-lg text-gray-700 dark:text-gray-300 mt-4">
+                        <i class="fas fa-hand-pointer"></i> ¡Prueba tú mismo! Calcula cualquier potencia
+                    </p>
                 </div>
-                <p class="text-base sm:text-lg text-gray-700 dark:text-gray-300 mt-4">
-                    <i class="fas fa-hand-pointer"></i> ¡Prueba tú mismo! Calcula cualquier potencia
+
+                <div class="glass rounded-2xl p-6 sm:p-8">
+                    <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-base sm:text-lg font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                <i class="fas fa-cube text-pink-500"></i> Base:
+                            </label>
+                            <input type="number" id="calc-base" value="2"
+                                class="w-full px-4 py-3 sm:py-4 text-xl sm:text-2xl font-bold rounded-xl border-4 border-pink-300 dark:border-pink-700 focus:border-pink-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-white neon-border orbitron">
+                        </div>
+                        <div>
+                            <label class="block text-base sm:text-lg font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                <i class="fas fa-rocket text-blue-500"></i> Exponente:
+                            </label>
+                            <input type="number" id="calc-exp" value="3"
+                                class="w-full px-4 py-3 sm:py-4 text-xl sm:text-2xl font-bold rounded-xl border-4 border-blue-300 dark:border-blue-700 focus:border-blue-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-white neon-border orbitron">
+                        </div>
+                    </div>
+
+                    <button onclick="calcularPotencia()"
+                        class="w-full gradient-bg text-white font-bold text-xl sm:text-2xl py-4 sm:py-6 rounded-xl calc-button mb-6 orbitron">
+                        <i class="fas fa-bolt mr-2"></i> CALCULAR <i class="fas fa-bolt ml-2"></i>
+                    </button>
+
+                    <div id="calc-result" class="hidden">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 sm:p-8 text-center neon-border animate-bounceIn">
+                            <p class="text-lg sm:text-2xl text-gray-700 dark:text-gray-300 mb-4">
+                                <i class="fas fa-equals"></i> Resultado:
+                            </p>
+                            <div id="calc-process" class="text-base sm:text-xl text-gray-600 dark:text-gray-400 mb-4 font-mono"></div>
+                            <div id="calc-answer" class="text-4xl sm:text-6xl font-black gradient-bg text-transparent bg-clip-text orbitron neon-text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tipos de Potencias -->
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-10 card-shadow animate-fadeInUp card-3d neon-border">
+                <div class="text-center mb-6 sm:mb-10">
+                    <div class="inline-block gradient-bg px-5 sm:px-6 py-2 sm:py-3 rounded-full animate-glow">
+                        <h3 class="text-2xl sm:text-4xl font-bold text-white orbitron">
+                            <i class="fas fa-layer-group mr-2"></i> TIPOS DE POTENCIAS <i class="fas fa-star ml-2"></i>
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-3 gap-6">
+                    <!-- Potencia Positiva -->
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 rounded-2xl p-6 card-3d neon-border animate-bounceIn" style="animation-delay: 0.2s;">
+                        <div class="text-center mb-4">
+                            <div class="inline-block bg-green-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-3 animate-pulse-custom">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <h4 class="text-xl sm:text-3xl font-bold text-green-700 dark:text-green-300 mb-3 orbitron">POSITIVA</h4>
+                        </div>
+                        <p class="text-sm sm:text-lg text-gray-700 dark:text-gray-300 mb-4 text-center font-bold">
+                            <i class="fas fa-arrow-up text-green-500"></i> El exponente es un número <span class="font-bold text-xl">positivo</span>
+                        </p>
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 text-center neon-border">
+                            <p class="text-2xl sm:text-4xl font-bold text-green-600 dark:text-green-400 orbitron mb-2">
+                                3<span class="exponente">2</span> = 9
+                            </p>
+                            <p class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 font-semibold">
+                                <i class="fas fa-calculator"></i> 3 × 3 = 9
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Potencia Negativa -->
+                    <div class="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900 dark:to-red-900 rounded-2xl p-6 card-3d neon-border animate-bounceIn" style="animation-delay: 0.4s;">
+                        <div class="text-center mb-4">
+                            <div class="inline-block bg-red-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-3 animate-pulse-custom">
+                                <i class="fas fa-minus"></i>
+                            </div>
+                            <h4 class="text-xl sm:text-3xl font-bold text-red-700 dark:text-red-300 mb-3 orbitron">NEGATIVA</h4>
+                        </div>
+                        <p class="text-sm sm:text-lg text-gray-700 dark:text-gray-300 mb-4 text-center font-bold">
+                            <i class="fas fa-arrow-down text-red-500"></i> El exponente es un número <span class="font-bold text-xl">negativo</span>
+                        </p>
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 text-center neon-border">
+                            <p class="text-2xl sm:text-4xl font-bold text-red-600 dark:text-red-400 orbitron mb-2">
+                                2<span class="exponente">-2</span> = 1/4
+                            </p>
+                            <p class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 font-semibold">
+                                <i class="fas fa-calculator"></i> 1/(2²) = 0.25
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Potencia Cero -->
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 rounded-2xl p-6 card-3d neon-border animate-bounceIn" style="animation-delay: 0.6s;">
+                        <div class="text-center mb-4">
+                            <div class="inline-block bg-purple-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-3 animate-pulse-custom">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <h4 class="text-xl sm:text-3xl font-bold text-purple-700 dark:text-purple-300 mb-3 orbitron">CERO</h4>
+                        </div>
+                        <p class="text-sm sm:text-lg text-gray-700 dark:text-gray-300 mb-4 text-center font-bold">
+                            <i class="fas fa-equals text-purple-500"></i> El exponente es <span class="font-bold text-xl">cero</span>
+                        </p>
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 text-center neon-border">
+                            <p class="text-2xl sm:text-4xl font-bold text-purple-600 dark:text-purple-400 orbitron mb-2">
+                                5<span class="exponente">0</span> = 1
+                            </p>
+                            <p class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 font-semibold">
+                                <i class="fas fa-magic"></i> Siempre es 1
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Teoría -->
+        <section id="teoria" class="section hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                    📚 Las 7 Leyes Fundamentales
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    Aprende cada ley paso a paso con ejemplos claros
                 </p>
             </div>
 
-            <div class="glass rounded-2xl p-6 sm:p-8">
-                <div class="grid sm:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-base sm:text-lg font-bold text-gray-700 dark:text-gray-200 mb-2">
-                            <i class="fas fa-cube text-pink-500"></i> Base:
-                        </label>
-                        <input type="number" id="calc-base" value="2"
-                            class="w-full px-4 py-3 sm:py-4 text-xl sm:text-2xl font-bold rounded-xl border-4 border-pink-300 dark:border-pink-700 focus:border-pink-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-white neon-border orbitron">
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Ley 1: Producto de potencias -->
+                <div class="law-card card-glow bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-primary" onclick="openLawModal(1)">
+                    <div class="flex items-center mb-4">
+                        <div class="number-circle mr-4">1</div>
+                        <h3 class="text-2xl font-bold gradient-text">Producto de Potencias</h3>
                     </div>
-                    <div>
-                        <label class="block text-base sm:text-lg font-bold text-gray-700 dark:text-gray-200 mb-2">
-                            <i class="fas fa-rocket text-blue-500"></i> Exponente:
-                        </label>
-                        <input type="number" id="calc-exp" value="3"
-                            class="w-full px-4 py-3 sm:py-4 text-xl sm:text-2xl font-bold rounded-xl border-4 border-blue-300 dark:border-blue-700 focus:border-blue-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-white neon-border orbitron">
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-4">
+                        <p class="text-center text-2xl font-bold text-gray-800 dark:text-white">
+                            a<span class="exponent">m</span> × a<span class="exponent">n</span> = a<span class="exponent">m+n</span>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        Cuando multiplicamos potencias con la <strong>misma base</strong>, sumamos los exponentes.
+                    </p>
+                    <div class="bg-accent/20 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 dark:text-white mb-1">Ejemplo:</p>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            2<span class="exponent">3</span> × 2<span class="exponent">4</span> = 2<span class="exponent">3+4</span> = 2<span class="exponent">7</span> = 128
+                        </p>
                     </div>
                 </div>
 
-                <button onclick="calcularPotencia()"
-                    class="w-full gradient-bg text-white font-bold text-xl sm:text-2xl py-4 sm:py-6 rounded-xl calc-button mb-6 orbitron">
-                    <i class="fas fa-bolt mr-2"></i> CALCULAR <i class="fas fa-bolt ml-2"></i>
+                <!-- Ley 2: Cociente de potencias -->
+                <div class="law-card card-glow bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-secondary" onclick="openLawModal(2)">
+                    <div class="flex items-center mb-4">
+                        <div class="number-circle mr-4" style="background: linear-gradient(135deg, #FF6B9D, #FF8BA7);">2</div>
+                        <h3 class="text-2xl font-bold gradient-text">Cociente de Potencias</h3>
+                    </div>
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-4">
+                        <p class="text-center text-2xl font-bold text-gray-800 dark:text-white">
+                            a<span class="exponent">m</span> ÷ a<span class="exponent">n</span> = a<span class="exponent">m-n</span>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        Cuando dividimos potencias con la <strong>misma base</strong>, restamos los exponentes.
+                    </p>
+                    <div class="bg-accent/20 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 dark:text-white mb-1">Ejemplo:</p>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            5<span class="exponent">6</span> ÷ 5<span class="exponent">2</span> = 5<span class="exponent">6-2</span> = 5<span class="exponent">4</span> = 625
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ley 3: Potencia de una potencia -->
+                <div class="law-card card-glow bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-accent" onclick="openLawModal(3)">
+                    <div class="flex items-center mb-4">
+                        <div class="number-circle mr-4" style="background: linear-gradient(135deg, #FFC837, #FFD666);">3</div>
+                        <h3 class="text-2xl font-bold gradient-text">Potencia de una Potencia</h3>
+                    </div>
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-4">
+                        <p class="text-center text-2xl font-bold text-gray-800 dark:text-white">
+                            (a<span class="exponent">m</span>)<span class="exponent">n</span> = a<span class="exponent">m×n</span>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        Cuando elevamos una potencia a otra potencia, <strong>multiplicamos</strong> los exponentes.
+                    </p>
+                    <div class="bg-accent/20 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 dark:text-white mb-1">Ejemplo:</p>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            (3<span class="exponent">2</span>)<span class="exponent">3</span> = 3<span class="exponent">2×3</span> = 3<span class="exponent">6</span> = 729
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ley 4: Potencia de un producto -->
+                <div class="law-card card-glow bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-primary" onclick="openLawModal(4)">
+                    <div class="flex items-center mb-4">
+                        <div class="number-circle mr-4" style="background: linear-gradient(135deg, #10B981, #34D399);">4</div>
+                        <h3 class="text-2xl font-bold gradient-text">Potencia de un Producto</h3>
+                    </div>
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-4">
+                        <p class="text-center text-2xl font-bold text-gray-800 dark:text-white">
+                            (a × b)<span class="exponent">n</span> = a<span class="exponent">n</span> × b<span class="exponent">n</span>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        El exponente se <strong>distribuye</strong> a cada factor del producto.
+                    </p>
+                    <div class="bg-accent/20 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 dark:text-white mb-1">Ejemplo:</p>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            (2 × 3)<span class="exponent">3</span> = 2<span class="exponent">3</span> × 3<span class="exponent">3</span> = 8 × 27 = 216
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ley 5: Potencia de un cociente -->
+                <div class="law-card card-glow bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-secondary" onclick="openLawModal(5)">
+                    <div class="flex items-center mb-4">
+                        <div class="number-circle mr-4" style="background: linear-gradient(135deg, #8B5CF6, #A78BFA);">5</div>
+                        <h3 class="text-2xl font-bold gradient-text">Potencia de un Cociente</h3>
+                    </div>
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-4">
+                        <p class="text-center text-2xl font-bold text-gray-800 dark:text-white">
+                            (a ÷ b)<span class="exponent">n</span> = a<span class="exponent">n</span> ÷ b<span class="exponent">n</span>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        El exponente se <strong>distribuye</strong> tanto al numerador como al denominador.
+                    </p>
+                    <div class="bg-accent/20 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 dark:text-white mb-1">Ejemplo:</p>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            (6 ÷ 2)<span class="exponent">2</span> = 6<span class="exponent">2</span> ÷ 2<span class="exponent">2</span> = 36 ÷ 4 = 9
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ley 6: Exponente cero -->
+                <div class="law-card card-glow bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-accent" onclick="openLawModal(6)">
+                    <div class="flex items-center mb-4">
+                        <div class="number-circle mr-4" style="background: linear-gradient(135deg, #F59E0B, #FBBF24);">6</div>
+                        <h3 class="text-2xl font-bold gradient-text">Exponente Cero</h3>
+                    </div>
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-4">
+                        <p class="text-center text-2xl font-bold text-gray-800 dark:text-white">
+                            a<span class="exponent">0</span> = 1 (a ≠ 0)
+                        </p>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        Cualquier número (excepto cero) elevado a la potencia cero es igual a <strong>1</strong>.
+                    </p>
+                    <div class="bg-accent/20 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 dark:text-white mb-1">Ejemplos:</p>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            5<span class="exponent">0</span> = 1 |
+                            100<span class="exponent">0</span> = 1 |
+                            (-7)<span class="exponent">0</span> = 1
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ley 7: Exponente negativo -->
+                <div class="law-card card-glow bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-primary" onclick="openLawModal(7)">
+                    <div class="flex items-center mb-4">
+                        <div class="number-circle mr-4" style="background: linear-gradient(135deg, #EF4444, #F87171);">7</div>
+                        <h3 class="text-2xl font-bold gradient-text">Exponente Negativo</h3>
+                    </div>
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-4">
+                        <p class="text-center text-2xl font-bold text-gray-800 dark:text-white">
+                            a<span class="exponent">-n</span> = 1 ÷ a<span class="exponent">n</span>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        Un exponente negativo indica el <strong>recíproco</strong> del número con exponente positivo.
+                    </p>
+                    <div class="bg-accent/20 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 dark:text-white mb-1">Ejemplo:</p>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            2<span class="exponent">-3</span> = 1 ÷ 2<span class="exponent">3</span> = 1 ÷ 8 = 0.125
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Ejemplos Interactivos -->
+        <section id="ejemplos" class="section hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                    💡 Ejemplos Interactivos
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    Haz clic en "Resolver paso a paso" para ver la solución
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+                    <h4 class="text-xl font-bold text-primary dark:text-blue-400 mb-4">
+                        Ejemplo 1: Producto de potencias
+                    </h4>
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                        <p class="text-2xl text-center font-bold text-gray-800 dark:text-white">
+                            3<span class="exponent">5</span> × 3<span class="exponent">2</span> = ?
+                        </p>
+                    </div>
+                    <button onclick="toggleSolution('sol1')" class="w-full btn-primary bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white font-bold py-3 px-6 rounded-lg transition-all mb-4 shadow-lg transform hover:scale-105">
+                        🔍 Resolver paso a paso
+                    </button>
+                    <div id="sol1" class="hidden bg-accent/20 rounded-lg p-4 space-y-2">
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 1:</strong> Identificamos que las bases son iguales (3)</p>
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 2:</strong> Sumamos los exponentes: 5 + 2 = 7</p>
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 3:</strong> 3<span class="exponent">7</span> = 2,187</p>
+                        <p class="text-xl font-bold text-primary dark:text-blue-400 mt-3">Respuesta: 2,187</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+                    <h4 class="text-xl font-bold text-primary dark:text-blue-400 mb-4">
+                        Ejemplo 2: Potencia de una potencia
+                    </h4>
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                        <p class="text-2xl text-center font-bold text-gray-800 dark:text-white">
+                            (2<span class="exponent">3</span>)<span class="exponent">4</span> = ?
+                        </p>
+                    </div>
+                    <button onclick="toggleSolution('sol2')" class="w-full btn-primary bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white font-bold py-3 px-6 rounded-lg transition-all mb-4 shadow-lg transform hover:scale-105">
+                        🔍 Resolver paso a paso
+                    </button>
+                    <div id="sol2" class="hidden bg-accent/20 rounded-lg p-4 space-y-2">
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 1:</strong> Multiplicamos los exponentes: 3 × 4 = 12</p>
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 2:</strong> 2<span class="exponent">12</span> = 4,096</p>
+                        <p class="text-xl font-bold text-primary dark:text-blue-400 mt-3">Respuesta: 4,096</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+                    <h4 class="text-xl font-bold text-primary dark:text-blue-400 mb-4">
+                        Ejemplo 3: Cociente de potencias
+                    </h4>
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                        <p class="text-2xl text-center font-bold text-gray-800 dark:text-white">
+                            7<span class="exponent">8</span> ÷ 7<span class="exponent">5</span> = ?
+                        </p>
+                    </div>
+                    <button onclick="toggleSolution('sol3')" class="w-full bg-primary hover:bg-primary/80 text-white font-bold py-3 px-6 rounded-lg transition-all mb-4">
+                        Resolver paso a paso
+                    </button>
+                    <div id="sol3" class="hidden bg-accent/20 rounded-lg p-4 space-y-2">
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 1:</strong> Identificamos que las bases son iguales (7)</p>
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 2:</strong> Restamos los exponentes: 8 - 5 = 3</p>
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 3:</strong> 7<span class="exponent">3</span> = 343</p>
+                        <p class="text-xl font-bold text-primary dark:text-blue-400 mt-3">Respuesta: 343</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+                    <h4 class="text-xl font-bold text-primary dark:text-blue-400 mb-4">
+                        Ejemplo 4: Exponente negativo
+                    </h4>
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
+                        <p class="text-2xl text-center font-bold text-gray-800 dark:text-white">
+                            5<span class="exponent">-2</span> = ?
+                        </p>
+                    </div>
+                    <button onclick="toggleSolution('sol4')" class="w-full bg-primary hover:bg-primary/80 text-white font-bold py-3 px-6 rounded-lg transition-all mb-4">
+                        Resolver paso a paso
+                    </button>
+                    <div id="sol4" class="hidden bg-accent/20 rounded-lg p-4 space-y-2">
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 1:</strong> Convertimos el exponente negativo: 5<span class="exponent">-2</span> = 1 ÷ 5<span class="exponent">2</span></p>
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 2:</strong> Calculamos 5<span class="exponent">2</span> = 25</p>
+                        <p class="text-gray-800 dark:text-white"><strong>Paso 3:</strong> 1 ÷ 25 = 0.04</p>
+                        <p class="text-xl font-bold text-primary dark:text-blue-400 mt-3">Respuesta: 0.04 o 1/25</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Práctica -->
+        <section id="practica" class="section hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                    ✏️ Ejercicios de Práctica
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    Genera ejercicios aleatorios y practica cada ley
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg max-w-2xl mx-auto">
+                <div class="mb-6">
+                    <label class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                        Selecciona la ley que quieres practicar:
+                    </label>
+                    <select id="lawSelect" class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        <option value="1">Producto de potencias (a^m × a^n)</option>
+                        <option value="2">Cociente de potencias (a^m ÷ a^n)</option>
+                        <option value="3">Potencia de una potencia ((a^m)^n)</option>
+                        <option value="4">Potencia de un producto ((a×b)^n)</option>
+                        <option value="5">Potencia de un cociente ((a÷b)^n)</option>
+                        <option value="6">Exponente cero (a^0)</option>
+                        <option value="7">Exponente negativo (a^-n)</option>
+                    </select>
+                </div>
+
+                <button onclick="generateExercise()" class="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-6 rounded-lg hover:opacity-90 transition-all mb-6 text-lg">
+                    🎲 Generar Nuevo Ejercicio
                 </button>
 
-                <div id="calc-result" class="hidden">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 sm:p-8 text-center neon-border animate-bounceIn">
-                        <p class="text-lg sm:text-2xl text-gray-700 dark:text-gray-300 mb-4">
-                            <i class="fas fa-equals"></i> Resultado:
-                        </p>
-                        <div id="calc-process" class="text-base sm:text-xl text-gray-600 dark:text-gray-400 mb-4 font-mono"></div>
-                        <div id="calc-answer" class="text-4xl sm:text-6xl font-black gradient-bg text-transparent bg-clip-text orbitron neon-text"></div>
+                <div id="exerciseArea" class="hidden">
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-6 mb-6">
+                        <p class="text-center text-3xl font-bold text-gray-800 dark:text-white mb-4" id="exerciseQuestion"></p>
+                        <div class="space-y-3">
+                            <input type="text" id="answerInput" placeholder="Escribe tu respuesta aquí" class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            <button onclick="checkAnswer()" class="w-full bg-primary hover:bg-primary/80 text-white font-bold py-3 px-6 rounded-lg transition-all">
+                                Verificar Respuesta
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="feedback" class="hidden rounded-lg p-4 text-center text-lg font-semibold"></div>
+                    <div id="solution" class="hidden bg-accent/20 rounded-lg p-4 mt-4"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Quiz -->
+        <section id="quiz" class="section hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                    🎯 Quiz Final
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    Pon a prueba tus conocimientos con 10 preguntas
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div id="quizStart" class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg text-center">
+                    <div class="animate-float text-6xl mb-6">🏆</div>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+                        ¿Listo para el desafío?
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">
+                        Responde 10 preguntas sobre todas las leyes de los exponentes. ¡Demuestra lo que has aprendido!
+                    </p>
+                    <button onclick="startQuiz()" class="bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-8 rounded-lg hover:opacity-90 transition-all text-lg">
+                        Comenzar Quiz
+                    </button>
+                </div>
+
+                <div id="quizArea" class="hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-4">
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                                Pregunta <span id="currentQuestion">1</span> de 10
+                            </span>
+                            <span class="text-lg font-semibold text-primary dark:text-blue-400">
+                                Puntos: <span id="score">0</span>
+                            </span>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-6 mb-6">
+                            <p class="text-center text-2xl font-bold text-gray-800 dark:text-white" id="quizQuestion"></p>
+                        </div>
+
+                        <div id="quizOptions" class="space-y-3"></div>
+                    </div>
+
+                    <div id="quizFeedback" class="hidden bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg mb-4"></div>
+                </div>
+
+                <div id="quizResults" class="hidden bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg text-center">
+                    <div class="text-6xl mb-6" id="resultEmoji"></div>
+                    <h3 class="text-3xl font-bold text-gray-800 dark:text-white mb-4" id="resultTitle"></h3>
+                    <p class="text-2xl text-primary dark:text-blue-400 mb-4">
+                        Puntuación: <span id="finalScore"></span>/10
+                    </p>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-6" id="resultMessage"></p>
+                    <button onclick="startQuiz()" class="bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-8 rounded-lg hover:opacity-90 transition-all">
+                        Intentar de Nuevo
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para ver las leyes en grande -->
+    <div id="lawModal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-overlay" onclick="closeLawModal()">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+
+            <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full modal-content" onclick="event.stopPropagation()">
+                <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center">
+                            <span class="text-5xl mr-4" id="modalEmoji"></span>
+                            <h3 class="text-3xl font-bold text-primary dark:text-blue-400" id="modalTitle"></h3>
+                        </div>
+                        <button onclick="closeLawModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-3xl font-bold leading-none">
+                            &times;
+                        </button>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-8 mb-6">
+                        <p class="text-center text-4xl font-bold text-gray-800 dark:text-white" id="modalFormula"></p>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-xl text-gray-700 dark:text-gray-300 mb-4" id="modalDescription"></p>
+                    </div>
+
+                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border-l-4 border-primary">
+                        <p class="font-semibold text-xl text-gray-800 dark:text-white mb-3">💡 ¿Por qué funciona así?</p>
+                        <p class="text-lg text-gray-700 dark:text-gray-300" id="modalExplanation"></p>
+                    </div>
+
+                    <div class="bg-accent/20 rounded-lg p-6">
+                        <p class="font-semibold text-xl text-gray-800 dark:text-white mb-3">📝 Ejemplo:</p>
+                        <p class="text-xl text-gray-700 dark:text-gray-300" id="modalExample"></p>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeLawModal()" class="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-6 rounded-lg hover:opacity-90 transition-all text-lg">
+                            Cerrar
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Tipos de Potencias -->
-        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-10 card-shadow animate-fadeInUp card-3d neon-border">
-            <div class="text-center mb-6 sm:mb-10">
-                <div class="inline-block gradient-bg px-5 sm:px-6 py-2 sm:py-3 rounded-full animate-glow">
-                    <h2 class="text-2xl sm:text-4xl font-bold text-white orbitron">
-                        <i class="fas fa-layer-group mr-2"></i> TIPOS DE POTENCIAS <i class="fas fa-star ml-2"></i>
-                    </h2>
-                </div>
-            </div>
-
-            <div class="grid sm:grid-cols-3 gap-6">
-                <!-- Potencia Positiva -->
-                <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 rounded-2xl p-6 card-3d neon-border animate-bounceIn" style="animation-delay: 0.2s;">
-                    <div class="text-center mb-4">
-                        <div class="inline-block bg-green-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-3 animate-pulse-custom">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <h3 class="text-xl sm:text-3xl font-bold text-green-700 dark:text-green-300 mb-3 orbitron">POSITIVA</h3>
-                    </div>
-                    <p class="text-sm sm:text-lg text-gray-700 dark:text-gray-300 mb-4 text-center font-bold">
-                        <i class="fas fa-arrow-up text-green-500"></i> El exponente es un número <span class="font-bold text-xl">positivo</span>
-                    </p>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 text-center neon-border">
-                        <p class="text-2xl sm:text-4xl font-bold text-green-600 dark:text-green-400 orbitron mb-2">
-                            3<span class="exponente">2</span> = 9
-                        </p>
-                        <p class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 font-semibold">
-                            <i class="fas fa-calculator"></i> 3 × 3 = 9
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Potencia Negativa -->
-                <div class="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900 dark:to-red-900 rounded-2xl p-6 card-3d neon-border animate-bounceIn" style="animation-delay: 0.4s;">
-                    <div class="text-center mb-4">
-                        <div class="inline-block bg-red-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-3 animate-pulse-custom">
-                            <i class="fas fa-minus"></i>
-                        </div>
-                        <h3 class="text-xl sm:text-3xl font-bold text-red-700 dark:text-red-300 mb-3 orbitron">NEGATIVA</h3>
-                    </div>
-                    <p class="text-sm sm:text-lg text-gray-700 dark:text-gray-300 mb-4 text-center font-bold">
-                        <i class="fas fa-arrow-down text-red-500"></i> El exponente es un número <span class="font-bold text-xl">negativo</span>
-                    </p>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 text-center neon-border">
-                        <p class="text-2xl sm:text-4xl font-bold text-red-600 dark:text-red-400 orbitron mb-2">
-                            2<span class="exponente">-2</span> = 1/4
-                        </p>
-                        <p class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 font-semibold">
-                            <i class="fas fa-calculator"></i> 1/(2²) = 0.25
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Potencia Cero -->
-                <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 rounded-2xl p-6 card-3d neon-border animate-bounceIn sm:col-span-1 col-span-1" style="animation-delay: 0.6s;">
-                    <div class="text-center mb-4">
-                        <div class="inline-block bg-purple-500 text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-3 animate-pulse-custom">
-                            <i class="fas fa-circle"></i>
-                        </div>
-                        <h3 class="text-xl sm:text-3xl font-bold text-purple-700 dark:text-purple-300 mb-3 orbitron">CERO</h3>
-                    </div>
-                    <p class="text-sm sm:text-lg text-gray-700 dark:text-gray-300 mb-4 text-center font-bold">
-                        <i class="fas fa-equals text-purple-500"></i> El exponente es <span class="font-bold text-xl">cero</span>
-                    </p>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 text-center neon-border">
-                        <p class="text-2xl sm:text-4xl font-bold text-purple-600 dark:text-purple-400 orbitron mb-2">
-                            5<span class="exponente">0</span> = 1
-                        </p>
-                        <p class="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-2 font-semibold">
-                            <i class="fas fa-magic"></i> Siempre es 1
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-8 sm:mt-12 animate-fadeInUp">
-            <p class="text-base sm:text-xl text-gray-700 dark:text-gray-300 font-bold">
-                <i class="fas fa-sparkles"></i> Infografía Interactiva sobre Potencias Matemáticas <i class="fas fa-sparkles"></i>
-            </p>
-            <p class="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">
-                Creada con <i class="fas fa-heart text-red-500 animate-pulse-custom"></i> para aprender matemáticas
-            </p>
         </div>
     </div>
 
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-6 mt-12 relative z-10">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-lg">💪 ¡Sigue practicando y dominarás las potencias y exponentes!</p>
+            <p class="text-sm opacity-75 mt-2">Hecho con ❤️ para el aprendizaje de matemáticas</p>
+        </div>
+    </footer>
+
     <script>
-        // Dark mode support
+        // Dark mode setup
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark');
         }
@@ -646,6 +1280,28 @@
 
                 container.appendChild(particle);
             }
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
+            });
+
+            event.target.classList.remove('text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
+            event.target.classList.add('bg-primary', 'text-white');
+        }
+
+        // Toggle solution
+        function toggleSolution(id) {
+            const sol = document.getElementById(id);
+            sol.classList.toggle('hidden');
         }
 
         // Calculadora de potencias
@@ -687,9 +1343,358 @@
             resultDiv.querySelector('div').classList.add('animate-bounceIn');
         }
 
-        // Inicializar partículas cuando se cargue la página
-        window.addEventListener('load', () => {
-            createParticles();
+        // Practice exercises
+        let currentExercise = null;
+
+        function generateExercise() {
+            const lawType = parseInt(document.getElementById('lawSelect').value);
+            const exerciseArea = document.getElementById('exerciseArea');
+            const feedback = document.getElementById('feedback');
+            const solution = document.getElementById('solution');
+            const answerInput = document.getElementById('answerInput');
+
+            feedback.classList.add('hidden');
+            solution.classList.add('hidden');
+            answerInput.value = '';
+            exerciseArea.classList.remove('hidden');
+
+            currentExercise = createExercise(lawType);
+            document.getElementById('exerciseQuestion').innerHTML = currentExercise.question;
+        }
+
+        function createExercise(type) {
+            const base1 = Math.floor(Math.random() * 5) + 2;
+            const base2 = Math.floor(Math.random() * 5) + 2;
+            const exp1 = Math.floor(Math.random() * 5) + 2;
+            const exp2 = Math.floor(Math.random() * 5) + 2;
+
+            let question, answer, steps;
+
+            switch(type) {
+                case 1: // Producto
+                    answer = base1 ** (exp1 + exp2);
+                    question = `${base1}<span class="exponent">${exp1}</span> × ${base1}<span class="exponent">${exp2}</span>`;
+                    steps = [
+                        `Las bases son iguales (${base1})`,
+                        `Sumamos los exponentes: ${exp1} + ${exp2} = ${exp1 + exp2}`,
+                        `${base1}<span class="exponent">${exp1 + exp2}</span> = ${answer}`
+                    ];
+                    break;
+                case 2: // Cociente
+                    const maxExp = Math.max(exp1, exp2);
+                    const minExp = Math.min(exp1, exp2);
+                    answer = base1 ** (maxExp - minExp);
+                    question = `${base1}<span class="exponent">${maxExp}</span> ÷ ${base1}<span class="exponent">${minExp}</span>`;
+                    steps = [
+                        `Las bases son iguales (${base1})`,
+                        `Restamos los exponentes: ${maxExp} - ${minExp} = ${maxExp - minExp}`,
+                        `${base1}<span class="exponent">${maxExp - minExp}</span> = ${answer}`
+                    ];
+                    break;
+                case 3: // Potencia de potencia
+                    answer = base1 ** (exp1 * exp2);
+                    question = `(${base1}<span class="exponent">${exp1}</span>)<span class="exponent">${exp2}</span>`;
+                    steps = [
+                        `Multiplicamos los exponentes: ${exp1} × ${exp2} = ${exp1 * exp2}`,
+                        `${base1}<span class="exponent">${exp1 * exp2}</span> = ${answer}`
+                    ];
+                    break;
+                case 4: // Potencia de producto
+                    answer = (base1 ** exp1) * (base2 ** exp1);
+                    question = `(${base1} × ${base2})<span class="exponent">${exp1}</span>`;
+                    steps = [
+                        `Distribuimos el exponente: ${base1}<span class="exponent">${exp1}</span> × ${base2}<span class="exponent">${exp1}</span>`,
+                        `${base1}<span class="exponent">${exp1}</span> = ${base1 ** exp1}`,
+                        `${base2}<span class="exponent">${exp1}</span> = ${base2 ** exp1}`,
+                        `${base1 ** exp1} × ${base2 ** exp1} = ${answer}`
+                    ];
+                    break;
+                case 5: // Potencia de cociente
+                    const num = Math.floor(Math.random() * 5) + 4;
+                    const den = Math.floor(Math.random() * 3) + 2;
+                    const expDiv = Math.floor(Math.random() * 3) + 2;
+                    answer = (num ** expDiv) / (den ** expDiv);
+                    question = `(${num} ÷ ${den})<span class="exponent">${expDiv}</span>`;
+                    steps = [
+                        `Distribuimos el exponente: ${num}<span class="exponent">${expDiv}</span> ÷ ${den}<span class="exponent">${expDiv}</span>`,
+                        `${num}<span class="exponent">${expDiv}</span> = ${num ** expDiv}`,
+                        `${den}<span class="exponent">${expDiv}</span> = ${den ** expDiv}`,
+                        `${num ** expDiv} ÷ ${den ** expDiv} = ${answer}`
+                    ];
+                    break;
+                case 6: // Exponente cero
+                    answer = 1;
+                    question = `${base1}<span class="exponent">0</span>`;
+                    steps = [
+                        `Cualquier número elevado a 0 es igual a 1`,
+                        `Respuesta: 1`
+                    ];
+                    break;
+                case 7: // Exponente negativo
+                    answer = (1 / (base1 ** exp1)).toFixed(4);
+                    question = `${base1}<span class="exponent">-${exp1}</span>`;
+                    steps = [
+                        `Convertimos: ${base1}<span class="exponent">-${exp1}</span> = 1 ÷ ${base1}<span class="exponent">${exp1}</span>`,
+                        `${base1}<span class="exponent">${exp1}</span> = ${base1 ** exp1}`,
+                        `1 ÷ ${base1 ** exp1} = ${answer}`
+                    ];
+                    break;
+            }
+
+            return { question, answer, steps };
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.trim();
+            const feedback = document.getElementById('feedback');
+            const solution = document.getElementById('solution');
+
+            if (!userAnswer) {
+                feedback.textContent = '⚠️ Por favor, escribe una respuesta';
+                feedback.className = 'rounded-lg p-4 text-center text-lg font-semibold bg-yellow-200 dark:bg-yellow-700 text-gray-800 dark:text-white';
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            const correct = Math.abs(parseFloat(userAnswer) - parseFloat(currentExercise.answer)) < 0.01;
+
+            if (correct) {
+                feedback.textContent = '🎉 ¡Correcto! ¡Excelente trabajo!';
+                feedback.className = 'rounded-lg p-4 text-center text-lg font-semibold correct-answer';
+            } else {
+                feedback.textContent = '❌ Incorrecto. Revisa la solución abajo.';
+                feedback.className = 'rounded-lg p-4 text-center text-lg font-semibold incorrect-answer';
+            }
+
+            feedback.classList.remove('hidden');
+
+            // Show solution
+            let solutionHTML = '<p class="font-bold text-gray-800 dark:text-white mb-3">Solución paso a paso:</p>';
+            currentExercise.steps.forEach((step, index) => {
+                solutionHTML += `<p class="text-gray-700 dark:text-gray-300 mb-2"><strong>Paso ${index + 1}:</strong> ${step}</p>`;
+            });
+            solutionHTML += `<p class="text-xl font-bold text-primary dark:text-blue-400 mt-4">Respuesta correcta: ${currentExercise.answer}</p>`;
+
+            solution.innerHTML = solutionHTML;
+            solution.classList.remove('hidden');
+        }
+
+        // Quiz functionality
+        let quizQuestions = [];
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+
+        function startQuiz() {
+            quizQuestions = [];
+            currentQuestionIndex = 0;
+            quizScore = 0;
+
+            // Generate 10 random questions
+            for (let i = 0; i < 10; i++) {
+                const lawType = Math.floor(Math.random() * 7) + 1;
+                const exercise = createExercise(lawType);
+
+                // Generate wrong answers
+                const correctAnswer = parseFloat(exercise.answer);
+                const wrongAnswers = [
+                    (correctAnswer * 2).toFixed(2),
+                    (correctAnswer / 2).toFixed(2),
+                    (correctAnswer + Math.floor(Math.random() * 10) + 1).toFixed(2)
+                ].filter(ans => Math.abs(parseFloat(ans) - correctAnswer) > 0.1);
+
+                const options = [exercise.answer.toString(), ...wrongAnswers.slice(0, 3)];
+                shuffleArray(options);
+
+                quizQuestions.push({
+                    question: exercise.question,
+                    correctAnswer: exercise.answer.toString(),
+                    options: options,
+                    steps: exercise.steps
+                });
+            }
+
+            document.getElementById('quizStart').classList.add('hidden');
+            document.getElementById('quizResults').classList.add('hidden');
+            document.getElementById('quizArea').classList.remove('hidden');
+
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            if (currentQuestionIndex >= quizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const question = quizQuestions[currentQuestionIndex];
+
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('score').textContent = quizScore;
+            document.getElementById('quizQuestion').innerHTML = question.question;
+            document.getElementById('quizFeedback').classList.add('hidden');
+
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'w-full px-6 py-4 text-left text-lg font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-primary/20 transition-all';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(option, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedAnswer, button) {
+            const question = quizQuestions[currentQuestionIndex];
+            const feedback = document.getElementById('quizFeedback');
+            const allButtons = document.getElementById('quizOptions').querySelectorAll('button');
+
+            allButtons.forEach(btn => btn.disabled = true);
+
+            const correct = Math.abs(parseFloat(selectedAnswer) - parseFloat(question.correctAnswer)) < 0.01;
+
+            if (correct) {
+                button.classList.add('correct-answer');
+                quizScore++;
+                feedback.innerHTML = '<p class="text-xl font-bold text-green-600 dark:text-green-400">✅ ¡Correcto!</p>';
+            } else {
+                button.classList.add('incorrect-answer');
+                feedback.innerHTML = `<p class="text-xl font-bold text-red-600 dark:text-red-400 mb-2">❌ Incorrecto</p><p class="text-gray-700 dark:text-gray-300">La respuesta correcta es: ${question.correctAnswer}</p>`;
+            }
+
+            feedback.classList.remove('hidden');
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuizQuestion();
+            }, 2500);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quizArea').classList.add('hidden');
+            document.getElementById('quizResults').classList.remove('hidden');
+
+            document.getElementById('finalScore').textContent = quizScore;
+
+            let emoji, title, message;
+
+            if (quizScore === 10) {
+                emoji = '🏆';
+                title = '¡Perfecto!';
+                message = '¡Increíble! Dominas completamente las leyes de los exponentes.';
+            } else if (quizScore >= 7) {
+                emoji = '🌟';
+                title = '¡Excelente!';
+                message = '¡Muy bien! Tienes un gran dominio de las leyes de los exponentes.';
+            } else if (quizScore >= 5) {
+                emoji = '👍';
+                title = '¡Bien hecho!';
+                message = 'Buen trabajo. Sigue practicando para mejorar aún más.';
+            } else {
+                emoji = '📚';
+                title = '¡Sigue intentando!';
+                message = 'Repasa la teoría y practica más. ¡Tú puedes!';
+            }
+
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Modal functionality for laws
+        const lawsData = {
+            1: {
+                emoji: '1️⃣',
+                title: 'Producto de Potencias',
+                formula: 'a<span class="exponent">m</span> × a<span class="exponent">n</span> = a<span class="exponent">m+n</span>',
+                description: 'Cuando multiplicamos potencias con la <strong>misma base</strong>, sumamos los exponentes.',
+                explanation: 'Imagina que tienes 2<span class="exponent">3</span> (2×2×2) y lo multiplicas por 2<span class="exponent">4</span> (2×2×2×2). En total estás multiplicando el 2 por sí mismo 7 veces (3+4=7). Por eso, cuando las bases son iguales, simplemente contamos cuántas veces aparece la base multiplicándose, lo que nos da la suma de los exponentes.',
+                example: '2<span class="exponent">3</span> × 2<span class="exponent">4</span> = (2×2×2) × (2×2×2×2) = 2<span class="exponent">7</span> = 128'
+            },
+            2: {
+                emoji: '2️⃣',
+                title: 'Cociente de Potencias',
+                formula: 'a<span class="exponent">m</span> ÷ a<span class="exponent">n</span> = a<span class="exponent">m-n</span>',
+                description: 'Cuando dividimos potencias con la <strong>misma base</strong>, restamos los exponentes.',
+                explanation: 'Cuando divides 2<span class="exponent">5</span> ÷ 2<span class="exponent">3</span>, es como tener (2×2×2×2×2) ÷ (2×2×2). Puedes cancelar tres doses del numerador con los tres doses del denominador, dejándote solo con 2<span class="exponent">2</span>. Por eso restamos los exponentes: estamos eliminando factores comunes.',
+                example: '5<span class="exponent">6</span> ÷ 5<span class="exponent">2</span> = (5×5×5×5×5×5) ÷ (5×5) = 5<span class="exponent">4</span> = 625'
+            },
+            3: {
+                emoji: '3️⃣',
+                title: 'Potencia de una Potencia',
+                formula: '(a<span class="exponent">m</span>)<span class="exponent">n</span> = a<span class="exponent">m×n</span>',
+                description: 'Cuando elevamos una potencia a otra potencia, <strong>multiplicamos</strong> los exponentes.',
+                explanation: 'Si tienes (2<span class="exponent">3</span>)<span class="exponent">2</span>, significa que estás elevando 2<span class="exponent">3</span> al cuadrado. Eso es lo mismo que (2<span class="exponent">3</span>)×(2<span class="exponent">3</span>) = 2<span class="exponent">3+3</span> = 2<span class="exponent">6</span>. Como estás repitiendo la base 3 veces, 2 veces, terminas multiplicándola 3×2=6 veces. La multiplicación de exponentes surge de esta repetición.',
+                example: '(3<span class="exponent">2</span>)<span class="exponent">3</span> = (3<span class="exponent">2</span>)×(3<span class="exponent">2</span>)×(3<span class="exponent">2</span>) = 3<span class="exponent">6</span> = 729'
+            },
+            4: {
+                emoji: '4️⃣',
+                title: 'Potencia de un Producto',
+                formula: '(a × b)<span class="exponent">n</span> = a<span class="exponent">n</span> × b<span class="exponent">n</span>',
+                description: 'El exponente se <strong>distribuye</strong> a cada factor del producto.',
+                explanation: 'Cuando elevas un producto a una potencia, como (2×3)<span class="exponent">3</span>, estás multiplicando (2×3)×(2×3)×(2×3). Gracias a la propiedad conmutativa, puedes reagrupar: (2×2×2)×(3×3×3) = 2<span class="exponent">3</span>×3<span class="exponent">3</span>. El exponente "se reparte" porque cada factor se multiplica por sí mismo el mismo número de veces.',
+                example: '(2 × 3)<span class="exponent">3</span> = (2×3)×(2×3)×(2×3) = 2<span class="exponent">3</span> × 3<span class="exponent">3</span> = 8 × 27 = 216'
+            },
+            5: {
+                emoji: '5️⃣',
+                title: 'Potencia de un Cociente',
+                formula: '(a ÷ b)<span class="exponent">n</span> = a<span class="exponent">n</span> ÷ b<span class="exponent">n</span>',
+                description: 'El exponente se <strong>distribuye</strong> tanto al numerador como al denominador.',
+                explanation: 'Similar a la ley del producto, cuando elevas una división a una potencia como (6÷2)<span class="exponent">2</span>, estás calculando (6÷2)×(6÷2). Esto se puede escribir como (6×6)÷(2×2) = 6<span class="exponent">2</span>÷2<span class="exponent">2</span>. El exponente se distribuye porque tanto el numerador como el denominador se multiplican por sí mismos.',
+                example: '(6 ÷ 2)<span class="exponent">2</span> = (6÷2)×(6÷2) = (6×6)÷(2×2) = 36 ÷ 4 = 9'
+            },
+            6: {
+                emoji: '6️⃣',
+                title: 'Exponente Cero',
+                formula: 'a<span class="exponent">0</span> = 1 (a ≠ 0)',
+                description: 'Cualquier número (excepto cero) elevado a la potencia cero es igual a <strong>1</strong>.',
+                explanation: 'Usando la ley del cociente: 2<span class="exponent">3</span> ÷ 2<span class="exponent">3</span> = 2<span class="exponent">3-3</span> = 2<span class="exponent">0</span>. Pero también sabemos que cualquier número dividido por sí mismo es 1. Por lo tanto, 2<span class="exponent">0</span> = 1. Esta misma lógica funciona para cualquier número. Es como tener cero factores del número, lo que nos da la identidad multiplicativa: 1.',
+                example: '5<span class="exponent">0</span> = 1 | 100<span class="exponent">0</span> = 1 | (-7)<span class="exponent">0</span> = 1 | (1000)<span class="exponent">0</span> = 1'
+            },
+            7: {
+                emoji: '7️⃣',
+                title: 'Exponente Negativo',
+                formula: 'a<span class="exponent">-n</span> = 1 ÷ a<span class="exponent">n</span>',
+                description: 'Un exponente negativo indica el <strong>recíproco</strong> del número con exponente positivo.',
+                explanation: 'Usando la ley del cociente: 2<span class="exponent">2</span> ÷ 2<span class="exponent">5</span> = 2<span class="exponent">2-5</span> = 2<span class="exponent">-3</span>. Pero también podemos escribir esto como (2×2) ÷ (2×2×2×2×2) = 1÷(2×2×2) = 1÷2<span class="exponent">3</span>. El exponente negativo significa que el número está en el denominador de una fracción. Es como "bajar" del numerador al denominador.',
+                example: '2<span class="exponent">-3</span> = 1 ÷ 2<span class="exponent">3</span> = 1 ÷ 8 = 0.125 = 1/8'
+            }
+        };
+
+        function openLawModal(lawNumber) {
+            const law = lawsData[lawNumber];
+            const modal = document.getElementById('lawModal');
+
+            document.getElementById('modalEmoji').textContent = law.emoji;
+            document.getElementById('modalTitle').textContent = law.title;
+            document.getElementById('modalFormula').innerHTML = law.formula;
+            document.getElementById('modalDescription').innerHTML = law.description;
+            document.getElementById('modalExplanation').innerHTML = law.explanation;
+            document.getElementById('modalExample').innerHTML = law.example;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLawModal() {
+            const modal = document.getElementById('lawModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeLawModal();
+            }
         });
 
         // Permitir calcular con Enter
@@ -706,6 +1711,12 @@
                 }
             });
         });
+
+        // Inicializar partículas cuando se cargue la página
+        window.addEventListener('load', () => {
+            createParticles();
+        });
     </script>
 </body>
 </html>
+
